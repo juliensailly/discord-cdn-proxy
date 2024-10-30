@@ -64,7 +64,7 @@ http.createServer((req, res) => {
         return;
     }
 
-    if (!targetUrl.includes("cdn.discord.com")) {
+    if (!targetUrl.includes("cdn") || !targetUrl.includes("discord")) {
         res.writeHead(400, { "Content-Type": "text/plain" });
         res.end("URL not valid. Only requests to Discord CDN are allowed.");
         return;
