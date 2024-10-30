@@ -9,17 +9,16 @@ function fetchContent(targetUrl, res) {
 
     protocol
         .get(targetUrl, (proxyRes) => {
-            let data = "";
+            let data = [];
 
             proxyRes.on("data", (chunk) => {
-                data += chunk;
-                data = data.replace('="/', '="/?url=/');
-                console.log(data);
+                data.push(chunk);
             });
 
             proxyRes.on("end", () => {
+                const buffer = Buffer.concat(data);
                 res.writeHead(proxyRes.statusCode, proxyRes.headers);
-                res.end(data);
+                res.end(buffer);
             });
         })
         .on("error", (err) => {
