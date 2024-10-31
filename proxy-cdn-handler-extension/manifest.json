@@ -1,18 +1,19 @@
 {
     "manifest_version": 3,
-    "name": "Discord CDN Proxy Redirect",
+    "name": "Discord CDN Redirector",
     "version": "1.0",
-    "description": "Redirige les requêtes vers le CDN de Discord vers un proxy.",
+    "description": "Redirige les requêtes de cdn.discordapp.com vers le proxy personnel.",
     "permissions": [
         "webRequest",
         "webRequestBlocking",
-        "declarativeNetRequest",
-        "declarativeNetRequestWithHostAccess"
+        "storage"
     ],
     "host_permissions": [
         "*://cdn.discordapp.com/*"
     ],
     "background": {
-        "service_worker": "background.js"
+        "scripts": [
+            "background.js"
+        ]
     }
 }
