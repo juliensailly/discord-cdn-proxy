@@ -46,29 +46,17 @@ function returnFavicon(req, res) {
 http.createServer((req, res) => {
     const queryObject = url.parse(req.url, true).query;
 
-    if (req.url == "/favicon.ico") {
+    if (req.url === "/favicon.ico") {
         return returnFavicon(req, res);
     }
 
-    if (queryObject.url == null || queryObject.url == "") {
+    if (!queryObject.conversation || !queryObject.message || !queryObject.ex || !queryObject.is || !queryObject.token) {
         res.writeHead(400, { "Content-Type": "text/plain" });
-        res.end("Please enter a valid URL using the param ?url=");
+        res.end("Missing required query parameters.");
         return;
     }
 
-    const targetUrl = queryObject.url;
-
-    if (!targetUrl.startsWith("http://") && !targetUrl.startsWith("https://")) {
-        res.writeHead(400, { "Content-Type": "text/plain" });
-        res.end("URL not valid. Only HTTP and HTTPS protocols are supported.");
-        return;
-    }
-
-    if (!targetUrl.includes("cdn") || !targetUrl.includes("discord")) {
-        res.writeHead(400, { "Content-Type": "text/plain" });
-        res.end("URL not valid. Only requests to Discord CDN are allowed.");
-        return;
-    }
+    const targetUrl = `https://cdn.discordapp.com/attachments/${queryObject.conversation}/${queryObject.message}/${queryObject.file}?ex=${queryObject.ex}&is=${queryObject.is}&hm=${queryObject.token}`;
 
     fetchContent(targetUrl, res);
 }).listen(80, () => {

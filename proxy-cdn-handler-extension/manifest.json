@@ -4,16 +4,18 @@
     "version": "1.0",
     "description": "Redirige les requêtes de cdn.discordapp.com vers le proxy personnel.",
     "permissions": [
-        "webRequest",
-        "webRequestBlocking",
-        "storage"
+        "declarativeNetRequest",
+        "declarativeNetRequestWithHostAccess",
+        "activeTab"
     ],
     "host_permissions": [
         "*://cdn.discordapp.com/*"
     ],
-    "background": {
-        "scripts": [
-            "background.js"
-        ]
+    "declarative_net_request": {
+      "rule_resources": [{
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }]
     }
 }

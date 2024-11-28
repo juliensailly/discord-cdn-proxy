@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "transform": {
+                    "scheme": "http",
+                    "host": "discord-cdn-proxy.juliensailly.com",
+                    "path": "/",
+                    "queryTransform": {
+                        "addOrReplaceParams": [
+                            {
+                                "key": "conversation",
+                                "value": "{url.pathSegments[2]}"
+                            },
+                            {
+                                "key": "message",
+                                "value": "{url.pathSegments[3]}"
+                            },
+                            {
+                                "key": "ex",
+                                "value": "{url.query.ex}"
+                            },
+                            {
+                                "key": "is",
+                                "value": "{url.query.is}"
+                            },
+                            {
+                                "key": "token",
+                                "value": "{url.query.hm}"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "condition": {
+            "urlFilter": "*://cdn.discordapp.com/attachments/*",
+            "resourceTypes": [
+                "main_frame",
+                "sub_frame",
+                "stylesheet",
+                "script",
+                "image",
+                "font",
+                "object",
+                "xmlhttprequest",
+                "ping",
+                "csp_report",
+                "media",
+                "websocket",
+                "other"
+            ]
+        }
+    }
+]
