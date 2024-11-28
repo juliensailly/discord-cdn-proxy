@@ -50,6 +50,31 @@ http.createServer((req, res) => {
         return returnFavicon(req, res);
     }
 
+    if (queryObject.type === "icon") {
+        const targetUrl = `https://cdn.discordapp.com/icons/${queryObject.id}/${queryObject.hash}.webp?size=${queryObject.size}`;
+        return fetchContent(targetUrl, res);
+    }
+
+    if (queryObject.type === "channel-icon") {
+        const targetUrl = `https://cdn.discordapp.com/channel-icons/${queryObject.id}/${queryObject.hash}.webp?size=${queryObject.size}`;
+        return fetchContent(targetUrl, res);
+    }
+
+    if (queryObject.type === "avatar") {
+        const targetUrl = `https://cdn.discordapp.com/avatars/${queryObject.id}/${queryObject.hash}.webp?size=${queryObject.size}`;
+        return fetchContent(targetUrl, res);
+    }
+
+    if (queryObject.type === "avatar-decoration") {
+        const targetUrl = `https://cdn.discordapp.com/avatar-decoration-presets/${queryObject.id}.png?size=${queryObject.size}&passthrough=${queryObject.passthrough}`;
+        return fetchContent(targetUrl, res);
+    }
+
+    if (queryObject.type === "emoji") {
+        const targetUrl = `https://cdn.discordapp.com/emojis/${queryObject.id}.webp?size=${queryObject.size}&animated=${queryObject.animated}`;
+        return fetchContent(targetUrl, res);
+    }
+
     if (!queryObject.conversation || !queryObject.message || !queryObject.ex || !queryObject.is || !queryObject.token) {
         res.writeHead(400, { "Content-Type": "text/plain" });
         res.end("Missing required query parameters.");
