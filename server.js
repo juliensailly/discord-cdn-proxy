@@ -24,7 +24,8 @@ function fetchContent(targetUrl, res) {
                 res.end(buffer);
             });
         })
-        .on("error", (_) => {
+        .on("error", (err) => {
+            console.error("Error fetching content:", err);
             res.writeHead(500, { "Content-Type": "text/plain" });
             res.end("Error fetching content");
         });
@@ -50,28 +51,35 @@ http.createServer((req, res) => {
         return returnFavicon(req, res);
     }
 
+    console.log("Received request with query:", queryObject);
+
     if (queryObject.type === "icon") {
         const targetUrl = `https://cdn.discordapp.com/icons/${queryObject.id}/${queryObject.hash}.webp?size=${queryObject.size}`;
+        console.log("Fetching icon:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
     if (queryObject.type === "channel-icon") {
         const targetUrl = `https://cdn.discordapp.com/channel-icons/${queryObject.id}/${queryObject.hash}.webp?size=${queryObject.size}`;
+        console.log("Fetching channel icon:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
     if (queryObject.type === "avatar") {
         const targetUrl = `https://cdn.discordapp.com/avatars/${queryObject.id}/${queryObject.hash}.webp?size=${queryObject.size}`;
+        console.log("Fetching avatar:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
     if (queryObject.type === "avatar-decoration") {
         const targetUrl = `https://cdn.discordapp.com/avatar-decoration-presets/${queryObject.id}.png?size=${queryObject.size}&passthrough=${queryObject.passthrough}`;
+        console.log("Fetching avatar decoration:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
     if (queryObject.type === "emoji") {
         const targetUrl = `https://cdn.discordapp.com/emojis/${queryObject.id}.webp?size=${queryObject.size}&animated=${queryObject.animated}`;
+        console.log("Fetching emoji:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
@@ -82,6 +90,7 @@ http.createServer((req, res) => {
     }
 
     const targetUrl = `https://cdn.discordapp.com/attachments/${queryObject.conversation}/${queryObject.message}/${queryObject.file}?ex=${queryObject.ex}&is=${queryObject.is}&hm=${queryObject.token}`;
+    console.log("Fetching attachment:", targetUrl);
 
     fetchContent(targetUrl, res);
 }).listen(80, () => {
