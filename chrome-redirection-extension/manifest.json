@@ -17,7 +17,7 @@
       {
         "id": "ruleset_1",
         "enabled": true,
-        "path": "rules.json"
+        "path": "generated_rules.json"
       }
     ]
   }

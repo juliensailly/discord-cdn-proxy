@@ -1,7 +1,12 @@
 {
   "dependencies": {
+    "dotenv": "^16.4.5",
     "http": "^0.0.1-security",
     "http-proxy": "^1.18.1",
     "url": "^0.11.4"
+  },
+  "scripts": {
+    "front": "node .\\chrome-redirection-extension\\rules_generator.js",
+    "back": "node .\\proxy-server\\server.js"
   }
 }
