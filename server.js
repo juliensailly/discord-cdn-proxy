@@ -54,31 +54,31 @@ http.createServer((req, res) => {
     console.log("Received request with query:", queryObject);
 
     if (queryObject.type === "icon") {
-        const targetUrl = `https://cdn.discordapp.com/icons/${queryObject.id}/${queryObject.hash}.webp?size=${queryObject.size}`;
+        const targetUrl = `https://cdn.discordapp.com/icons/${queryObject.id}/${queryObject.hash}?size=${queryObject.size}`;
         console.log("Fetching icon:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
     if (queryObject.type === "channel-icon") {
-        const targetUrl = `https://cdn.discordapp.com/channel-icons/${queryObject.id}/${queryObject.hash}.webp?size=${queryObject.size}`;
+        const targetUrl = `https://cdn.discordapp.com/channel-icons/${queryObject.id}/${queryObject.hash}?size=${queryObject.size}`;
         console.log("Fetching channel icon:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
     if (queryObject.type === "avatar") {
-        const targetUrl = `https://cdn.discordapp.com/avatars/${queryObject.id}/${queryObject.hash}.webp?size=${queryObject.size}`;
+        const targetUrl = `https://cdn.discordapp.com/avatars/${queryObject.id}/${queryObject.hash}?size=${queryObject.size}`;
         console.log("Fetching avatar:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
     if (queryObject.type === "avatar-decoration") {
-        const targetUrl = `https://cdn.discordapp.com/avatar-decoration-presets/${queryObject.id}.png?size=${queryObject.size}&passthrough=${queryObject.passthrough}`;
+        const targetUrl = `https://cdn.discordapp.com/avatar-decoration-presets/${queryObject.id}?size=${queryObject.size}&passthrough=${queryObject.passthrough}`;
         console.log("Fetching avatar decoration:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
     if (queryObject.type === "emoji") {
-        const targetUrl = `https://cdn.discordapp.com/emojis/${queryObject.id}.webp?size=${queryObject.size}&animated=${queryObject.animated}`;
+        const targetUrl = `https://cdn.discordapp.com/emojis/${queryObject.id}?size=${queryObject.size}&animated=${queryObject.animated}`;
         console.log("Fetching emoji:", targetUrl);
         return fetchContent(targetUrl, res);
     }
