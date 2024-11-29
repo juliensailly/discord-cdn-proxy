@@ -132,6 +132,25 @@ const rules = [
             resourceTypes: resourceTypes,
         },
     },
+    {
+        id: 7,
+        priority: 1,
+        action: {
+            type: "redirect",
+            redirect: {
+                regexSubstitution:
+                    "http://" +
+                    process.env.PROXY_SERVER +
+                    "/?type=badge-icons&id=\\1&proxy_token=" +
+                    process.env.PROXY_TOKEN,
+            },
+        },
+        condition: {
+            regexFilter:
+                "^https://cdn.discordapp.com/badge-icons/([^?]+)",
+            resourceTypes: resourceTypes,
+        },
+    },
 ];
 
 fs.writeFileSync(
