@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "body-parser": "^1.20.3",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.4.5",
     "http": "^0.0.1-security",
     "http-proxy": "^1.18.1",
     "url": "^0.11.4"

@@ -42,7 +42,7 @@ function fetchContent(targetUrl, res) {
 }
 
 function returnFavicon(req, res) {
-    const faviconPath = path.join(__dirname, "assets", "favicon.ico");
+    const faviconPath = path.join(__dirname, "../assets", "favicon.ico");
     fs.readFile(faviconPath, (err, data) => {
         if (err) {
             if (!res.headersSent) {
