@@ -3,6 +3,7 @@ const https = require("https");
 const url = require("url");
 const fs = require("fs");
 const path = require("path");
+require("dotenv").config({ path: __dirname + "/./../.env" });
 
 function setCorsHeaders(res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -67,6 +68,13 @@ http.createServer((req, res) => {
 
     setCorsHeaders(res);
 
+    // Authentication
+    if (queryObject.proxy_token !== process.env.PROXY_TOKEN) {
+        res.writeHead(401, { "Content-Type": "text/plain" });
+        res.end("Unauthorized");
+        return;
+    }
+
     console.log("Received request with query:", queryObject);
 
     if (queryObject.type === "icon") {
@@ -96,6 +104,12 @@ http.createServer((req, res) => {
     if (queryObject.type === "emoji") {
         const targetUrl = `https://cdn.discordapp.com/emojis/${queryObject.id}?size=${queryObject.size}&animated=${queryObject.animated}`;
         console.log("Fetching emoji:", targetUrl);
+        return fetchContent(targetUrl, res);
+    }
+
+    if (queryObject.type === "badge-icons") {
+        const targetUrl = `https://cdn.discordapp.com/badge-icons/${queryObject.id}`;
+        console.log("Fetching badge icon:", targetUrl);
         return fetchContent(targetUrl, res);
     }
 
