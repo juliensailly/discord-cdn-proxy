@@ -4,6 +4,12 @@ const url = require("url");
 const fs = require("fs");
 const path = require("path");
 
+function setCorsHeaders(res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+}
+
 function fetchContent(targetUrl, res) {
     targetUrl = decodeURIComponent(targetUrl);
     const parsedUrl = url.parse(targetUrl);
@@ -21,12 +27,14 @@ function fetchContent(targetUrl, res) {
             proxyRes.on("end", () => {
                 const buffer = Buffer.concat(data);
                 res.writeHead(proxyRes.statusCode, proxyRes.headers);
+                setCorsHeaders(res); 
                 res.end(buffer);
             });
         })
         .on("error", (err) => {
             console.error("Error fetching content:", err);
             res.writeHead(500, { "Content-Type": "text/plain" });
+            setCorsHeaders(res); 
             res.end("Error fetching content");
         });
 }
@@ -36,10 +44,12 @@ function returnFavicon(req, res) {
     fs.readFile(faviconPath, (err, data) => {
         if (err) {
             res.writeHead(500, { "Content-Type": "text/plain" });
+            setCorsHeaders(res); 
             res.end("Error loading favicon");
             return;
         }
         res.writeHead(200, { "Content-Type": "image/x-icon" });
+        setCorsHeaders(res); 
         res.end(data);
     });
 }
@@ -50,6 +60,8 @@ http.createServer((req, res) => {
     if (req.url === "/favicon.ico") {
         return returnFavicon(req, res);
     }
+
+    setCorsHeaders(res);
 
     console.log("Received request with query:", queryObject);
 
@@ -85,6 +97,7 @@ http.createServer((req, res) => {
 
     if (!queryObject.conversation || !queryObject.message || !queryObject.ex || !queryObject.is || !queryObject.token) {
         res.writeHead(400, { "Content-Type": "text/plain" });
+        setCorsHeaders(res); 
         res.end("Missing required query parameters.");
         return;
     }
