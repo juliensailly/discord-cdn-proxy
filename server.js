@@ -26,16 +26,18 @@ function fetchContent(targetUrl, res) {
 
             proxyRes.on("end", () => {
                 const buffer = Buffer.concat(data);
+                setCorsHeaders(res);
                 res.writeHead(proxyRes.statusCode, proxyRes.headers);
-                setCorsHeaders(res); 
                 res.end(buffer);
             });
         })
         .on("error", (err) => {
             console.error("Error fetching content:", err);
-            res.writeHead(500, { "Content-Type": "text/plain" });
-            setCorsHeaders(res); 
-            res.end("Error fetching content");
+            if (!res.headersSent) {
+                setCorsHeaders(res);
+                res.writeHead(500, { "Content-Type": "text/plain" });
+                res.end("Error fetching content");
+            }
         });
 }
 
@@ -43,13 +45,15 @@ function returnFavicon(req, res) {
     const faviconPath = path.join(__dirname, "assets", "favicon.ico");
     fs.readFile(faviconPath, (err, data) => {
         if (err) {
-            res.writeHead(500, { "Content-Type": "text/plain" });
-            setCorsHeaders(res); 
-            res.end("Error loading favicon");
+            if (!res.headersSent) {
+                setCorsHeaders(res);
+                res.writeHead(500, { "Content-Type": "text/plain" });
+                res.end("Error loading favicon");
+            }
             return;
         }
+        setCorsHeaders(res);
         res.writeHead(200, { "Content-Type": "image/x-icon" });
-        setCorsHeaders(res); 
         res.end(data);
     });
 }
@@ -96,9 +100,11 @@ http.createServer((req, res) => {
     }
 
     if (!queryObject.conversation || !queryObject.message || !queryObject.ex || !queryObject.is || !queryObject.token) {
-        res.writeHead(400, { "Content-Type": "text/plain" });
-        setCorsHeaders(res); 
-        res.end("Missing required query parameters.");
+        if (!res.headersSent) {
+            setCorsHeaders(res);
+            res.writeHead(400, { "Content-Type": "text/plain" });
+            res.end("Missing required query parameters.");
+        }
         return;
     }
 
